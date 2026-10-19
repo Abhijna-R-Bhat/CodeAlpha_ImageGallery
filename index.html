@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Image Gallery</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff0f5;
+            color: #4a244a;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 15px;
+            background-color: #f8c8dc;
+            
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #fff0f6, #ffe0ec);
+    border-radius: 18px;
+    margin-bottom: 25px;
+
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            
+    color: #a83265;
+    letter-spacing: 1px;
+
+        }
+
+        header p {
+            margin-bottom: 0;
+        }
+        
+.filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px;
+}
+
+.filters button {
+    background-color: #f8c8dc;
+    color: #4a244a;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    
+background: #ffe4ef;
+color: #9b3b65;
+border: 1px solid #f5bfd5;
+border-radius: 25px;
+padding: 10px 20px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+
+}
+
+
+.filters button:hover {
+    background: #f7b8d0;
+    color: #702747;
+    transform: translateY(-2px);
+}
+
+
+.filters button:hover {
+    background-color: #e89ab9;
+}
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+           
+            max-width: 1100px;
+            margin: auto;
+            
+    gap: 22px;
+    padding: 20px 10px;
+
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 18px #d99ab5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+        }
+    
+/* Image popup background */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background: rgba(30, 15, 30, 0.92);
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+/* Show popup when active */
+.lightbox.active {
+    display: flex;
+}
+
+/* Enlarged image */
+.lightbox img {
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+/* Close button */
+.close-lightbox {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 42px;
+    cursor: pointer;
+}
+
+/* Smooth hover effect for gallery pictures */
+.gallery-image {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Make gallery pictures look polished */
+.gallery-image {
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(80, 40, 70, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Gentle zoom effect */
+.gallery-image:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 24px rgba(80, 40, 70, 0.25);
+}
+
+
+/* Responsive layout for phones and tablets */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 12px 6px;
+    }
+
+    header {
+        padding: 22px 12px;
+    }
+
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .filters button {
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    .lightbox img {
+        max-width: 95%;
+        max-height: 80vh;
+    }
+}
+
+/* Extra-small phones */
+@media (max-width: 400px) {
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Image Gallery 🌸</h1>
+        <p>A little collection of beautiful moments</p>
+    </header>
+         
+<div class="filters">
+    <button onclick="filterImages('all')">All</button>
+    <button onclick="filterImages('flowers')">Flowers</button>
+    <button onclick="filterImages('nature')">Nature</button>
+    <button onclick="filterImages('mountains')">Mountains</button>
+</div>
+
+    <main class="gallery">
+        
+<img class="gallery-image" data-category="flowers" src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600" alt="Beautiful flowers">
+
+<img class="gallery-image" data-category="nature" src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600" alt="Sunrise landscape">
+
+<img class="gallery-image" data-category="mountains" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600" alt="Beautiful nature">
+
+<img class="gallery-image" data-category="mountains" src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600" alt="Mountain lake">
+
+<img class="gallery-image" data-category="nature" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600" alt="Green forest">
+
+<img class="gallery-image" data-category="nature" src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=600" alt="Sunset scenery">
+ 
+<img class="gallery-image" data-category="mountains" src="https://images.unsplash.com/photo-1494625927555-6ec4433b1571?w=600" alt="Pink flowers">
+
+<img class="gallery-image" data-category="flowers" src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=600" alt="Beautiful roses">
+
+<img class="gallery-image" data-category="flowers" src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=600" alt="Flower garden">
+
+<img class="gallery-image" data-category="nature" src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=600" alt="Green forest">
+
+<img class="gallery-image" data-category="nature" src="https://images.unsplash.com/photo-1472396961693-142e6e269027?w=600" alt="Wildlife in nature">
+
+<img class="gallery-image" data-category="nature" src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600" alt="Waterfall">
+
+<img class="gallery-image" data-category="mountains" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600" alt="Mountain peaks">
+
+<img class="gallery-image" data-category="mountains" src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=600" alt="Snowy mountains">
+
+<img class="gallery-image" data-category="mountains" src="https://images.unsplash.com/photo-1464278533981-50106e6176b1?w=600" alt="Mountain landscape">
+
+    </main>
+
+    <footer>Made with love ♡</footer>
+    
+<div id="lightbox" class="lightbox">
+    <button id="closeLightbox" class="close-lightbox" aria-label="Close image">&times;</button>
+    <img id="lightboxImage" src="" alt="Enlarged gallery image">
+</div>
+
+   
+<script>
+    function filterImages(category) {
+        const images = document.querySelectorAll(".gallery-image");
+
+        images.forEach(function(image) {
+            if (category === "all" || image.dataset.category === category) {
+                image.style.display = "block";
+            } else {
+                image.style.display = "none";
+            }
+        });
+    }
+
+const galleryImages = document.querySelectorAll(".gallery-image");
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const closeLightbox = document.getElementById("closeLightbox");
+
+// Open the popup when a picture is clicked
+galleryImages.forEach(function(image) {
+    image.addEventListener("click", function() {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightbox.classList.add("active");
+    });
+});
+
+// Close the popup using the X button
+closeLightbox.addEventListener("click", function() {
+    lightbox.classList.remove("active");
+});
+
+// Close when clicking the dark background
+lightbox.addEventListener("click", function(event) {
+    if (event.target === lightbox) {
+        lightbox.classList.remove("active");
+    }
+});
+
+// Close when pressing Escape
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        lightbox.classList.remove("active");
+    }
+});
+
+</script>
+ 
+</body>
+</html>
