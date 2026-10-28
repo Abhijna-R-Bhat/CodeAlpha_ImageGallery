@@ -215,6 +215,36 @@ transition: all 0.3s ease;
 }
 
 
+/* Previous and Next image navigation */
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    color: #d63384;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.nav-button:hover {
+    background: #ffc0cb;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-button {
+    left: 20px;
+}
+
+.next-button {
+    right: 20px;
+}
+
     </style>
 </head>
 <body>
@@ -266,9 +296,15 @@ transition: all 0.3s ease;
 
     <footer>Made with love ♡</footer>
     
+
 <div id="lightbox" class="lightbox">
     <button id="closeLightbox" class="close-lightbox" aria-label="Close image">&times;</button>
+
+    <button id="prevImage" class="nav-button prev-button" aria-label="Previous image">&#10094;</button>
+
     <img id="lightboxImage" src="" alt="Enlarged gallery image">
+
+    <button id="nextImage" class="nav-button next-button" aria-label="Next image">&#10095;</button>
 </div>
 
    
@@ -288,15 +324,45 @@ transition: all 0.3s ease;
 const galleryImages = document.querySelectorAll(".gallery-image");
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
+const prevImage = document.getElementById("prevImage");
+const nextImage = document.getElementById("nextImage");
+let currentImageIndex = 0;
 const closeLightbox = document.getElementById("closeLightbox");
 
-// Open the popup when a picture is clicked
+
+function getVisibleImages() {
+    return Array.from(galleryImages).filter(function(image) {
+        return image.style.display !== "none";
+    });
+}
+
+function showImage(index) {
+    const visibleImages = getVisibleImages();
+
+    if (visibleImages.length === 0) return;
+
+    currentImageIndex = (index + visibleImages.length) % visibleImages.length;
+
+    lightboxImage.src = visibleImages[currentImageIndex].src;
+    lightboxImage.alt = visibleImages[currentImageIndex].alt;
+}
+
 galleryImages.forEach(function(image) {
     image.addEventListener("click", function() {
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
+        const visibleImages = getVisibleImages();
+        currentImageIndex = visibleImages.indexOf(image);
+
+        showImage(currentImageIndex);
         lightbox.classList.add("active");
     });
+});
+
+prevImage.addEventListener("click", function() {
+    showImage(currentImageIndex - 1);
+});
+
+nextImage.addEventListener("click", function() {
+    showImage(currentImageIndex + 1);
 });
 
 // Close the popup using the X button
@@ -311,10 +377,16 @@ lightbox.addEventListener("click", function(event) {
     }
 });
 
-// Close when pressing Escape
+
 document.addEventListener("keydown", function(event) {
+    if (!lightbox.classList.contains("active")) return;
+
     if (event.key === "Escape") {
         lightbox.classList.remove("active");
+    } else if (event.key === "ArrowLeft") {
+        showImage(currentImageIndex - 1);
+    } else if (event.key === "ArrowRight") {
+        showImage(currentImageIndex + 1);
     }
 });
 
